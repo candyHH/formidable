@@ -1,6 +1,6 @@
-var querystring = require("querystring");
-var formidable = require("formidable");
-var fs=require("fs");
+var querystring = require("querystring");//文件数据处理的模块
+var formidable = require("formidable");//文件上传的模块
+var fs=require("fs");//文件读取到服务器中
 
 function start (response) {
 	console.log("Request handler 'start' was called ");
@@ -26,15 +26,16 @@ function start (response) {
 
 function upload(response,request) {
 	console.log("Request handler 'upload' was called ");
+	
 	var form = new formidable.IncomingForm();
 	console.log("about to parse");
-	console.log(form);
+
     form.uploadDir="./tmp";//必须设置
 
 	form.parse(request,function(error,fields,files){
 		console.log("parsing done");
 		console.log(files);
-		fs.renameSync(files.upload.path,"/tmp/test.png");
+		fs.renameSync(files.upload.path,"/tmp/test.png");//重命名
 		response.writeHead(200,{"Content-Type":"text/html"});
 		response.write("received image:<br>/");
 		response.write("<img src='/show' />");
